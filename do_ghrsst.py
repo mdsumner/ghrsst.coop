@@ -1,31 +1,9 @@
-# year = '2002'
-# month = '06'
-# day = '01'
-# 
-# jday = '152'  ## or '001'  '010' etc
-
-## logic for the a_ullr below
-#f <- "/rdsi/PUBLIC/raad/data/podaac-opendap.jpl.nasa.gov/opendap/allData/ghrsst/data/GDS2/L4/GLOB/JPL/MUR/v4.1/2002/152/20020601090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.nc"
-#lon <- rawdata(f, "lon")
-#lat  <- rawdata(f, "lat")
-#range(lat)
-##[1] -89.99  89.99
-#la <- seq(-89.99 - 0.001/2, 89.99 + 0.001/2, length.out = 17999)
-#range(la)
-##[1] -89.9905  89.9905
-#range(diff(la))
-##[1] 0.01000006 0.01000006
-# length(la)
-##[1] 17999
-# range(diff(lat))
-##[1] 0.009994507 0.010002136
-
 
 from datetime import datetime
 from os import path
 #import rasterio
 from osgeo import gdal
-from osgeo import gdalconst
+
 gdal.UseExceptions()
 def do_ghrsst(datestring, subdatasets = ["analysed_sst"])
     #datetime.date(int('2002'), int('09'), int('05'))
