@@ -40,17 +40,25 @@ def do_ghrsst(datestring, subdatasets = ["analysed_sst"])
     filename = f'/rdsi/PUBLIC/raad/data/podaac-opendap.jpl.nasa.gov/opendap/allData/ghrsst/data/GDS2/L4/GLOB/JPL/MUR/v4.1/{year}/{jday}/{year}{month}{day}090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.nc'
     
     #gdal.TranslateOptions(options=None, format=None, outputType=0, bandList=None, maskBand=None, width=0, height=0, widthPct=0.0, heightPct=0.0, xRes=0.0, yRes=0.0, creationOptions=None, srcWin=None, projWin=None, projWinSRS=None, strict=False, unscale=False, scaleParams=None, exponents=None, outputBounds=None, outputGeotransform=None, metadataOptions=None, outputSRS=None, nogcp=False, GCPs=None, noData=None, rgbExpand=None, stats=False, rat=True, xmp=True, resampleAlg=None, overviewLevel='AUTO', callback=None, callback_data=None)
-    #opts = gdal.TranslateOptions(format = "COG", outputType = gdalconst.GDT_Int16, creationOptions = [ "BLOCKSIZE=1024", "BLOCKYSIZE=256", "COMPRESS=ZSTD", "PREDICTOR=STANDARD", "RESAMPLING=AVERAGE", "SPARSE_OK=YES"])
+    opts = gdal.TranslateOptions(format = "COG", outputType = gdalconst.GDT_Int16, 
+     creationOptions = [ "BLOCKSIZE=1024",  "COMPRESS=ZSTD", "PREDICTOR=STANDARD", "RESAMPLING=AVERAGE", "SPARSE_OK=YES"])
     if path.isfile(filename): 
         ## loop over sds
         for sds in subdatasets: 
-            dsn = f"vrt://NetCDF:\"{filename}\":{sds}?a_srs=OGC:CRS84&a_ullr=-180,89.9905,180,-89.9905&a_scale=0.001&a_offset=25"
+            ## FIXME:
+            ##   rather than if/else hack there's a thing where you set up cases to do for?
+            ##   we need to also drop the band metatadata about being in Kelvin
+            if sds == "analysed_sst" | sds == "analysis_error":
+                dsn = f"vrt://NetCDF:\"{filename}\":{sds}?a_srs=OGC:CRS84&a_ullr=-180,89.9905,180,-89.9905&a_scale=0.001&a_offset=25"
+            else: 
+                dsn = f"vrt://NetCDF:\"{filename}\":{sds}?a_srs=OGC:CRS84&a_ullr=-180,89.9905,180,-89.9905"
             ds = gdal.Open(dsn)
             ## can't use regex how do I bind it to end of string?
             #destName = filename.replace(".nc", f"{sds}.tif")
             destName = path.join("/tmp", path. file.nc.replace(".nc", f"{sds}.tif")
             ## remember ice, sst, mask, error have different types and offset/scale so a_scale/a_offset needs to be a special case
-            gdal.Translate('/tmp/somenw_deflate.tif', ds, format = "COG", outputType = ds., creationOptions = [ "BLOCKSIZE=1024",  "COMPRESS=DEFLATE", "PREDICTOR=STANDARD", "RESAMPLING=AVERAGE", "SPARSE_OK=YES"])
+            ## and also you must update the band metadata tags which include offset/scale
+            gdal.Translate('/tmp/somenw_deflate.tif', ds, format = "COG", outputType = ds.GetRasterBand(1).DataType, options = opts)
 
 
 
