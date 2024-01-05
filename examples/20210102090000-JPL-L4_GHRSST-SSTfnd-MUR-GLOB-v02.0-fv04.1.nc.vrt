@@ -1,0 +1,16 @@
+<VRTDataset rasterXSize="1700" rasterYSize="800">
+  <SRS dataAxisToSRSAxisMapping="1,2">GEOGCS["WGS 84 (CRS84)",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563]],PRIMEM["Greenwich",0],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AXIS["Longitude",EAST],AXIS["Latitude",NORTH],AUTHORITY["OGC","CRS84"]]</SRS>
+  <GeoTransform> -9.3005004165841427e+01,  1.0000000152592130e-02,  0.0000000000000000e+00,  4.9004998836693254e+01,  0.0000000000000000e+00, -9.9999997626146822e-03</GeoTransform>
+    <VRTRasterBand dataType="Int16" band="1">
+      <NoDataValue>-32768</NoDataValue>
+    <Offset>298.15</Offset>
+    <Scale>0.001</Scale>
+    <SimpleSource>
+      <SourceFilename relativeToVRT="0">NETCDF:/vsicurl/https://archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-protected/MUR-JPL-L4-GLOB-v4.1/20210102090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.nc:analysed_sst</SourceFilename>
+      <SourceBand>1</SourceBand>
+      <SourceProperties RasterXSize="36000" RasterYSize="17999" DataType="Int16" BlockXSize="2047" BlockYSize="1023" />
+      <SrcRect xOff="8699" yOff="4099" xSize="1700" ySize="800" />
+      <DstRect xOff="0" yOff="0" xSize="1700" ySize="800" />
+    </SimpleSource>
+  </VRTRasterBand>
+</VRTDataset>
