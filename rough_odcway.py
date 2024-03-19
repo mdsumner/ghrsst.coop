@@ -9,6 +9,7 @@ from odc.geo.geobox import GeoBox
 from odc.geo.xr import assign_crs, xr_reproject
 from odc.geo.cog import write_cog
 import affine
+import pathlib
 from pathlib import Path
 import fsspec
 headers = {"Authorization": f"Bearer {os.environ['EARTHDATA_TOKEN']}"}
