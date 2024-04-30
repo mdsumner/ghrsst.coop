@@ -14,20 +14,11 @@ from pathlib import Path
 import fsspec
 headers = {"Authorization": f"Bearer {os.environ['EARTHDATA_TOKEN']}"}
 
-VARIABLES = [
-    "analysed_sst",
-    "analysis_error",
-    "mask",
-    "sea_ice_fraction",
-    "sst_anomaly",
-    "dt_1km_data",
-]
 
 DROP_VARIABLES = ["dt_1km_data",     "analysis_error",
     "mask",
     "sea_ice_fraction",
     "sst_anomaly"]
-VARIABLES = [var for var in VARIABLES if var not in DROP_VARIABLES]
 
 ## write_cog is not respecting blocksize
 COG_OPTS = dict(COMPRESS = "ZSTD", NUM_THREADS = "ALL_CPUS", BLOCKSIZE = "1024")
@@ -48,7 +39,7 @@ ymd = random_date(datetime.datetime.strptime("2002-01-01", "%Y-%m-%d"), datetime
 
 
 input_path = f"https://archive.podaac.earthdata.nasa.gov/podaac-ops-cumulus-protected/MUR-JPL-L4-GLOB-v4.1/{ymd}090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.nc"
-
+input_path = "/home/mdsumner/20240101090000-JPL-L4_GHRSST-SSTfnd-MUR-GLOB-v02.0-fv04.1.nc"
 
 with fsspec.open(input_path, headers=headers) as f:
                 data = xr.open_dataset(
@@ -57,6 +48,7 @@ with fsspec.open(input_path, headers=headers) as f:
                     drop_variables=DROP_VARIABLES,
                     engine="h5netcdf",
                 ).load()
+                
   
 
 data = assign_crs(data, crs="EPSG:4326")
