@@ -1,5 +1,5 @@
 typical_config <- function() {
-  print(
+  cat(
 '#export GDAL_HTTP_HEADERS  for earthdata
 #export AWS_ACCESS_KEY_ID= for write to Acacia
 #export AWS_SECRET_ACCESS_KEY= ditto

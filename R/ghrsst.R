@@ -32,3 +32,8 @@ ghrsst_vsi <- function(date, sds = "analysed_sst") {
   sprintf("vrt://NetCDF:\"/vsicurl/%s\":analysed_sst?a_ullr=-179.995,89.995,180.0050,-89.995&a_offset=25&a_scale=0.001&a_srs=EPSG:4326",
           input_path)
 }
+
+ghrsst_key <- function(date, sds, bucket) {
+  file <- gsub("nc$", "tif", sprintf("%s_%s", ghrsst_file(date), sds))
+  file.path("/vsis3", bucket)
+}
